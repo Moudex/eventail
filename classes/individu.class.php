@@ -1,6 +1,6 @@
 <?php 
 
-class IndividuComplement {
+class Individu {
 
     private $_id;
     private $_alcool;

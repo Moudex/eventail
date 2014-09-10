@@ -9,7 +9,7 @@ if (!$login->isAdmin()) {
     die();
 }
 
-require_once 'classes/event.class.php';
+require_once '_config.inc.php';
 
 if (isset($_POST['date'])) {
     // enregistrer en bdd
