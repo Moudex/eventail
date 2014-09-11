@@ -20,6 +20,7 @@ else {
     $tpl->template_dir = 'templates/' . $preferences->pref_theme;
 
     // assign
+    $tpl->assign('page_title', 'Fiche evenement (creation)');
     
     $content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);
     $tpl->assign('content', $content);
