@@ -4,6 +4,6 @@
 <ul>
 {if $login->isAdmin()}
     <li>{_T string="Creer un evenement"}</li>
-    <li>{_T string="Modifier un evenement"}</li>
+    <li>{_T string="Liste des evenements"}</li>
 {/if}
 </ul>
