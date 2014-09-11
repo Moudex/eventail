@@ -16,8 +16,15 @@ if (isset($_POST['date'])) {
 }
 else {
     // afficher template formulaire
+    $orig_template_path = $tpl->template_dir;
+    $tpl->template_dir = 'templates/' . $preferences->pref_theme;
 
-    $tpl->display('creation.tpl');
+    // assign
+    
+    $content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);
+    $tpl->assign('content', $content);
+    $tpl->template_dir = $orig_template_path;
+    $tpl->display('page.tpl', EVENTAIL_PREFIX);
 }
 
 
