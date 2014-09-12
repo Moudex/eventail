@@ -54,17 +54,17 @@ else if (array_key_exists('modifier', $_POST)) {
 }
 // Nouvel event
 else {
-    $evt = new Event();
+    //$evt = new Event();
     //$evt->setPrixParticipation(5);
     //$evt->setNbPlaces(100);
 }
 
 $tpl->assign('page_title', 'Fiche evenement');
-$tpl->assign('event', $evt);
+//$tpl->assign('event', $evt);
 
-$tpl->assign('enregistre', $enregistrer);
-$tpl->assign('annule', $annuler);
-$tpl->assign('modifie', $modifier);
+//$tpl->assign('enregistre', $enregistrer);
+//$tpl->assign('annule', $annuler);
+//$tpl->assign('modifie', $modifier);
 
 $content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);
 $tpl->assign('content', $content);
