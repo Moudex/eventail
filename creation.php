@@ -11,11 +11,16 @@ if (!$login->isAdmin()) {
 
 require_once '_config.inc.php';
 
-if (isset($_POST['date'])) {
+$enregistrer = false;
+$annuler = false;
+
+if (array_key_exists('sauver', $_POST)) {
     // enregistrer en bdd
 }
+else if (array_key_exists('annuler', $_POST)) {
+    // retourner home
+}
 else {
-    // afficher template formulaire
     $orig_template_path = $tpl->template_dir;
     $tpl->template_dir = 'templates/' . $preferences->pref_theme;
 

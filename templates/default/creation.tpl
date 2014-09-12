@@ -36,10 +36,11 @@
 		<label for="places" class="bline">Nombre de places disponibles : </label>
 		<input type="number" value="100" min="1" />
 	    </p>
-
-	    <input type="submit" value="Envoyer" />
-
 	</fieldset>
+    </div>
+    <div class="button-container">
+	<input type="submit" id="sauver" name="sauver" value="sauver">
+	<input type="submit" id="annuler" name="annuler" value="annuler">
     </div>
 </form>
 
