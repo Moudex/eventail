@@ -57,6 +57,17 @@ class Event {
 	    }
 	    catch (Exception $e) {}
 	}
+	else {
+	    $this->_event_id = '';
+	    $this->_nom = '';
+	    $this->_dateEvent = '';
+	    $this->_ouvertureInsc = '';
+	    $this->_fermetureInsc = '';
+	    $this->_lieu = '';
+	    $this->_description = '';
+	    $this->_prixParticipation='';
+	    $this->_nbPlaces = '';
+	}
     }
 
     private function _loadFromRS($r) {
@@ -169,7 +180,7 @@ class Event {
 	if($prix == null or intval($prix) < 0) {
 	    throw new Exception(_T("Prix invalide"));
 	}
-	$this->_prixParticipation = $prix;
+	$this->_prixParticipation = intval($prix);
     }
 
     public function getPrixParticipation() {
@@ -177,10 +188,10 @@ class Event {
     }
 
     public function setNbPlaces($nb = null) {
-	if($nb == null or $nb<=0){
+	if($nb == null or intval($nb) <= 0){
 	    throw new Exception(_T("Nombre invalide"));
 	}
-	$thi->_nbPlaces = $nb;
+	$thi->_nbPlaces = intval($nb);
     }
 
     public function getNbPlaces() {

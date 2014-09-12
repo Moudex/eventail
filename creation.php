@@ -44,27 +44,23 @@ else if (array_key_exists('annuler', $_POST)) {
     $annuler = true;
 }
 
-// assigne des valeurs pour modifier un event
+// modifier un event
 else if (array_key_exists('modifier', $_POST)) {
     if(!(isset($_POST['event_id'] and intval($_POST['event_id']) > 0) {
 	throw new Exception(_T("Id invalide"));
     }
-    $tpl->assign('page_title', 'Fiche evenement (modification)');
     $evt = new Event(intval($_POST['event_id']));
-    $tpl->assign('event_id', $evt->getEvent_id());
-    $tpl->assign('nom', $evt->getNom());
-    $tpl->assign('date', $evt->getDateEvenement());
-    $tpl->assign('ouvertureInsc', $evt->getOuvertureInsc());
-    $tpl->assign('fermetureInsc', $evt->getFermetureInsc());
-    $tpl->assign('lieu', $evt->getLieu());
-    $tpl->assign('description', $evt->getDescription());
-    $tpl->assign('prix', $evt->getPrixParticipation());
-    $tpl->assign('places', $evt->getNbPlaces());
     $modifier = true;
 }
+// Nouvel event
 else {
-    $tpl->assign('page_title', 'Fiche evenement (creation)');
+    $evt = new Event();
+    //$evt->setPrixParticipation(5);
+    //$evt->setNbPlaces(100);
 }
+
+$tpl->assign('page_title', 'Fiche evenement');
+$tpl->assign('event', $evt);
 
 $tpl->assign('enregistre', $enregistrer);
 $tpl->assign('annule', $annuler);
@@ -74,7 +70,5 @@ $content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);
 $tpl->assign('content', $content);
 $tpl->template_dir = $orig_template_path;
 $tpl->display('page.tpl', EVENTAIL_PREFIX);
-
-
 
 ?>
