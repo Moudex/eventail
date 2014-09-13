@@ -14,9 +14,9 @@ DROP TABLE IF EXISTS galette_event_event;
 CREATE TABLE IF NOT EXISTS galette_event_event (
     event_id int(10) unsigned NOT NULL AUTO_INCREMENT,
     nom varchar(25) NOT NULL,
-    dateEvent datetime NOT NULL,
-    ouvertureInsc datetime,
-    fermetureInsc datetime,
+    dateEvent date ,
+    ouvertureInsc date,
+    fermetureInsc date,
     lieu varchar(255),
     description text,
     prixParticipation integer,

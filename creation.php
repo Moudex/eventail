@@ -16,16 +16,17 @@ $enregistrer = false;
 if (array_key_exists('sauver', $_POST)) {
     // enregistrer en bdd
     $evt = new Event();
-    $evt->setNom($_POST['nom']);
-    $evt->setDateEvent($_POST['date']);
-    $evt->setOuvertureInsc($_POST['ouvertureInsc']);
-    $evt->setFermetureInsc($_POST['fermetureInsc']);
-    $evt->setLieu($_POST['lieu']);
-    $evt->setDescription($_POST['description']);
-    $evt->setPrixParticipation($_POST['prix']);
-    $evt->setNbPlaces($_POST['places']);
-    $evt->store();
-    header('Location: liste_events.php');
+    $evt->nom = $_POST['nom'];
+    $evt->dateEvent = $_POST['date'];
+    $evt->ouvertureInsc = $_POST['ouvertureInsc'];
+    $evt->fermetureInsc = $_POST['fermetureInsc'];
+    $evt->lieu = $_POST['lieu'];
+    $evt->description = $_POST['description'];
+    $evt->prixParticipation = $_POST['prix'];
+    $evt->nbPlaces = $_POST['places'];
+    if($evt->store()){
+	header('Location: liste_events.php');
+    }
 }
 else {
     $orig_template_path = $tpl->template_dir;
