@@ -11,11 +11,8 @@ if (!$login->isAdmin()) {
 
 require_once '_config.inc.php';
 
+$enregistrer = false;
 
-$orig_template_path = $tpl->template_dir;
-$tpl->template_dir = 'templates/' . $preferences->pref_theme;
-
-// Sauvegarde un event cree ou modifie
 if (array_key_exists('sauver', $_POST)) {
     // enregistrer en bdd
     $evt = new Event();
@@ -31,31 +28,18 @@ if (array_key_exists('sauver', $_POST)) {
 	header('Location: liste_events.php');
     }
 }
-
-// modifier un event
-else if (array_key_exists('modifier', $_POST)) {
-    if(!(isset($_POST['event_id'] and intval($_POST['event_id']) > 0) {
-	throw new Exception(_T("Id invalide"));
-    }
-    $evt = new Event(intval($_POST['event_id']));
-}
-// Nouvel event
 else {
-    //$evt = new Event();
-    //$evt->setPrixParticipation(5);
-    //$evt->setNbPlaces(100);
+    $orig_template_path = $tpl->template_dir;
+    $tpl->template_dir = 'templates/' . $preferences->pref_theme;
+
+    // assign
+    $tpl->assign('page_title', 'Fiche evenement (creation)');
+    
+    $content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);
+    $tpl->assign('content', $content);
+    $tpl->template_dir = $orig_template_path;
+    $tpl->display('page.tpl', EVENTAIL_PREFIX);
 }
 
-$tpl->assign('page_title', 'Fiche evenement');
-//$tpl->assign('event', $evt);
-
-//$tpl->assign('enregistre', $enregistrer);
-//$tpl->assign('annule', $annuler);
-//$tpl->assign('modifie', $modifier);
-
-$content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);
-$tpl->assign('content', $content);
-$tpl->template_dir = $orig_template_path;
-$tpl->display('page.tpl', EVENTAIL_PREFIX);
 
 ?>

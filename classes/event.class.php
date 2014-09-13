@@ -61,17 +61,6 @@ class Event {
 		);
 	    }
 	}
-	else {
-	    $this->_event_id = '';
-	    $this->_nom = '';
-	    $this->_dateEvent = '';
-	    $this->_ouvertureInsc = '';
-	    $this->_fermetureInsc = '';
-	    $this->_lieu = '';
-	    $this->_description = '';
-	    $this->_prixParticipation='';
-	    $this->_nbPlaces = '';
-	}
     }
 
     private function _loadFromRS($r) {
