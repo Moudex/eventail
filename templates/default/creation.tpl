@@ -8,8 +8,8 @@
 		<input type="text" name="nom" id="nom" required>
 	    </p>
 	    <p>
-		<label for="text" class="bline">Date : </label>
-		<input type="datetime" name="date" id="date" maxlength="10" required> <span class="exemple">(format jj/mm/aaaa)</span>
+		<label for="date" class="bline">Date : </label>
+		<input type="text" name="date" id="date" value="" maxlength="10" required /> <span class="exemple">(format jj/mm/aaaa)</span>
 	    </p>
 	    <p>
 		<label for="ouvertureInsc" class="bline">Ouverture des inscriptions : </label>
@@ -30,26 +30,25 @@
 	    </p>
 	    <p>
 		<label for="prix" class="bline">Prix de participation : </label>
-		<input type="number" value="5"  min="0" />
+		<input type="number" value="5" size="3" min="0" /> <span class="exemple">&euro;</span>
 	    </p>
 	    <p>
 		<label for="places" class="bline">Nombre de places disponibles : </label>
-		<input type="number" value="100" min="1" />
+		<input type="number" value="100" size="4" min="1" />
 	    </p>
 	</fieldset>
     </div>
     <div class="button-container">
 	<input type="submit" id="sauver" name="sauver" value="sauver">
-	<input type="submit" id="annuler" name="annuler" value="annuler">
     </div>
 </form>
 
 <script type="text/javascript">
 $(function() {ldelim}
-    $('#ouvertureInsc').datepicker({ldelim}
+    $('#date').datepicker({ldelim}
 	changeMonth: true,
 	changeYear: true,
-	showOn: 'both',
+	showOn: 'button',
 	buttonImage: '{$template_subdir}images/calendar.png',
 	buttonImageOnly: true,
 	maxDate: '-0d',

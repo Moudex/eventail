@@ -17,9 +17,18 @@ if (array_key_exists('sauver', $_POST)) {
     // enregistrer en bdd
     $evt = new Event();
     $evt->nom = $_POST['nom'];
-    $evt->dateEvent = $_POST['date'];
-    $evt->ouvertureInsc = $_POST['ouvertureInsc'];
-    $evt->fermetureInsc = $_POST['fermetureInsc'];
+    list($j, $m, $a) = split('/', $_POST['date']);
+    $evt->dateEvent = $a . '-' . $m . '-' . $j;
+    if (strlen($_POST['fermetureInsc']) > 0) {
+	list($j, $m, $a) = split('/', $_POST['fermetureInsc']);
+    }
+    $evt->fermetureInsc = $a . '-' . $m . '-' . $j;
+    if (strlen($_POST['ouvertureInsc']) > 0) {
+	list($j, $m, $a) = split('/', $_POST['ouvertureInsc']);
+    } else {
+	list($j, $m, $a) = split('/', date('d/m/Y'));
+    }
+    $evt->ouvertureInsc = $a . '-' . $m . '-' . $j;
     $evt->lieu = $_POST['lieu'];
     $evt->description = $_POST['description'];
     $evt->prixParticipation = $_POST['prix'];
