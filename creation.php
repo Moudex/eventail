@@ -11,37 +11,25 @@ if (!$login->isAdmin()) {
 
 require_once '_config.inc.php';
 
-$enregistrer = false;
-$annuler = false;
-$modifier = false;
-$evt = null;
 
 $orig_template_path = $tpl->template_dir;
 $tpl->template_dir = 'templates/' . $preferences->pref_theme;
 
 // Sauvegarde un event cree ou modifie
 if (array_key_exists('sauver', $_POST)) {
+    // enregistrer en bdd
     $evt = new Event();
-    if (isset($_POST['event_id']) and intval($_POST['event_id']) > 0) {
-	$evt->setEvent_id($_POST['envent_id']);
+    $evt->nom = $_POST['nom'];
+    $evt->dateEvent = $_POST['date'];
+    $evt->ouvertureInsc = $_POST['ouvertureInsc'];
+    $evt->fermetureInsc = $_POST['fermetureInsc'];
+    $evt->lieu = $_POST['lieu'];
+    $evt->description = $_POST['description'];
+    $evt->prixParticipation = $_POST['prix'];
+    $evt->nbPlaces = $_POST['places'];
+    if($evt->store()){
+	header('Location: liste_events.php');
     }
-    $evt->setNom($_POST['nom']);
-    $evt->setDateEvent($_POST['date']);
-    $evt->setOuvertureInsc($_POST['ouvertureInsc']);
-    $evt->setFermetureInsc($_POST['fermetureInsc']);
-    $evt->setLieu($_POST['lieu']);
-    $evt->setDescription($_POST['description']);
-    $evt->setPrixParticipation($_POST['prix']);
-    $evt->setNbPlaces($_POST['places']);
-    $evt->store();
-    $enregistrer = true;
-}
-
-// Annule
-else if (array_key_exists('annuler', $_POST)) {
-    // retourner home
-
-    $annuler = true;
 }
 
 // modifier un event
@@ -50,7 +38,6 @@ else if (array_key_exists('modifier', $_POST)) {
 	throw new Exception(_T("Id invalide"));
     }
     $evt = new Event(intval($_POST['event_id']));
-    $modifier = true;
 }
 // Nouvel event
 else {

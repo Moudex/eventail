@@ -50,12 +50,16 @@ class Event {
 	    try {
 		$select = new Zend_Db_Select($zdb->db);
 		$select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
-		    ->where('event_id = ?', $args);
+		    ->where(self::PK . ' = ' . $args);
 		if ($select->query()->rowCount() == 1) {
 		    $this->_loadFromRS($select->query()->fetch());
 		}
 	    }
-	    catch (Exception $e) {}
+	    catch (Exception $e) {
+		Analog\Analog::log(
+		    'Something went wrong :\'( | ' . $e->getMassage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+		);
+	    }
 	}
 	else {
 	    $this->_event_id = '';
@@ -71,15 +75,15 @@ class Event {
     }
 
     private function _loadFromRS($r) {
-	$this->setEvent_id($r->_event_id);
-	$this->setNom($r->_nom);
-	$this->setDateEvent($r->_dateEvent);
-	$this->setOuvertureInsc($r->_ouvertureInsc);
-	$this->setFermetureInsc($r->_fermetureInsc);
-	$this->setLieu($r->_lieu);
-	$this->setDescription($r->_description);
-	$this->setPrixParticipation($r->_prixParticipation);
-	$this->setNbPlaces($r->_nbPlaces);
+	$this->_event_id = $r->_event_id;
+	$this->_nom = $r->_nom;
+	$this->_dateEvent = $r->_dateEvent;
+	$this->_ouvertureInsc = $r->_ouvertureInsc;
+	$this->_fermetureInsc = $r->_fermetureInsc;
+	$this->_lieu = $r->_lieu;
+	$this->_description = $r->_description;
+	$this->_prixParticipation = $r->_prixParticipation;
+	$this->_nbPlaces = $r->_nbPlaces;
     }
 
     public function store() {
@@ -97,7 +101,7 @@ class Event {
 		if ($add > 0) {
 		    $this->_event_id = $zdb->db->lastInsertId();
 		} else {
-		    throw new Exception(_T("Ajout event ECHEC"));
+		    throw new Exception("Echec ajout event");
 		}
 	    } else {
 		$edit = $zdb->db->update(
@@ -107,95 +111,32 @@ class Event {
 	    return true;
 	}
 	catch (Exception $e) {
+	    Analog\Analog::log(
+		'Something went wrong : \'( | ' . $e->getMassage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+	    );
 	}
+	return false;
+    }
+
+    public static function getNextEvents() {
+	global $zdb;
     }
 
     /* ACCESSEURS
      *
      */
 
-    public function setEvent_id($id = null) {
-	if($id == null or intval($id) <= 0) {
-	    throw new Exception(_T("Id invalide"));
+    public function __get($name) {
+	$rname = '_' . $name;
+	if (substr($rname, 0, 3) == '___') {
+	    return null;
 	}
-	$this->_event_id = intval($id);
+	return $this->$rname;
     }
 
-    public function getEvent_id() {
-	return $this->_event_id;
-    }
-
-    public function setNom($nom = null) {
-	if($nom == null or strlen($nom) == 0) {
-	    throw new Exception(_T("Nom invalide"));
-	}
-	$this->_nom = $nom;
-    }
-
-    public function getNom() {
-	return $this->_nom;
-    }
-
-    public function setDateEvent($date) {
-	$this->_dateEvenement = new DateTime($date);
-    }
-
-    public function getDateEvenement() {
-	return $this->_dateEvenement;
-    }
-
-    public function setOuvertureInsc($date) {
-	$this->_ouvertureInsc = new DateTime($date);
-    }
-
-    public function getOuvertureInsc() {
-	return $this->_ouvertureInsc;
-    }
-
-    public function setFermetureInsc($date) {
-	$this->_fermetureInsc = new DateTime($date);
-    }
-
-    public function getFermetureInsc() {
-	return $this->_fermetureInsc;
-    }
-
-    public function setLieu($lieu) {
-	$this->_lieu;
-    }
-
-    public function getLieu() {
-	return $this->_lieu;
-    }
-
-    public function setDescription($desc) {
-	$this->_description = $desc;
-    }
-
-    public function getDescription() {
-	return $this->_description;
-    }
-
-    public function setPrixParticipation($prix = null) {
-	if($prix == null or intval($prix) < 0) {
-	    throw new Exception(_T("Prix invalide"));
-	}
-	$this->_prixParticipation = intval($prix);
-    }
-
-    public function getPrixParticipation() {
-	return $this->_prixParticipation;
-    }
-
-    public function setNbPlaces($nb = null) {
-	if($nb == null or intval($nb) <= 0){
-	    throw new Exception(_T("Nombre invalide"));
-	}
-	$thi->_nbPlaces = intval($nb);
-    }
-
-    public function getNbPlaces() {
-	return $this->_nbPlaces;
+    public function __set($name, $value) {
+	$rname = '_' . $name;
+	$this->$rname = $value;
     }
 }
 
