@@ -12,13 +12,20 @@ if (!$login->isAdmin()) {
 require_once '_config.inc.php';
 
 $enregistrer = false;
-$annuler = false;
 
 if (array_key_exists('sauver', $_POST)) {
     // enregistrer en bdd
-}
-else if (array_key_exists('annuler', $_POST)) {
-    // retourner home
+    $evt = new Event();
+    $evt->setNom($_POST['nom']);
+    $evt->setDateEvent($_POST['date']);
+    $evt->setOuvertureInsc($_POST['ouvertureInsc']);
+    $evt->setFermetureInsc($_POST['fermetureInsc']);
+    $evt->setLieu($_POST['lieu']);
+    $evt->setDescription($_POST['description']);
+    $evt->setPrixParticipation($_POST['prix']);
+    $evt->setNbPlaces($_POST['places']);
+    $evt->store();
+    header('Location: liste_events.php');
 }
 else {
     $orig_template_path = $tpl->template_dir;
