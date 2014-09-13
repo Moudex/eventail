@@ -8,9 +8,9 @@ class Event {
     private $_fields = array(
 	'_event_id' => 'integer',
 	'_nom' => 'string',
-	'_dateEvent' => 'datetime',
-	'_ouvertureInsc' => 'datetime',
-	'_fermetureInsc' => 'datetime',
+	'_dateEvent' => 'date',
+	'_ouvertureInsc' => 'date',
+	'_fermetureInsc' => 'date',
 	'_lieu' => 'string',
 	'_description' => 'string',
 	'_prixParticipation' => 'integer',

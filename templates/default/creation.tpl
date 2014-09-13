@@ -30,11 +30,11 @@
 	    </p>
 	    <p>
 		<label for="prix" class="bline">Prix de participation : </label>
-		<input type="number" value="5" size="3" min="0" /> <span class="exemple">&euro;</span>
+		<input type="text" value="5" name="prix" id="prix" size="3" min="0" /> <span class="exemple">&euro;</span>
 	    </p>
 	    <p>
 		<label for="places" class="bline">Nombre de places disponibles : </label>
-		<input type="number" value="100" size="4" min="1" />
+		<input type="text" value="100" size="4" name="places" id="places" min="1" />
 	    </p>
 	</fieldset>
     </div>

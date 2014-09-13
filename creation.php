@@ -31,8 +31,8 @@ if (array_key_exists('sauver', $_POST)) {
     $evt->ouvertureInsc = $a . '-' . $m . '-' . $j;
     $evt->lieu = $_POST['lieu'];
     $evt->description = $_POST['description'];
-    $evt->prixParticipation = $_POST['prix'];
-    $evt->nbPlaces = $_POST['places'];
+    $evt->prixParticipation = intval($_POST['prix']);
+    $evt->nbPlaces = intval($_POST['places']);
     if($evt->store()){
 	header('Location: liste_events.php');
     }
