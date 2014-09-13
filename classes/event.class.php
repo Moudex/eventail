@@ -115,7 +115,7 @@ class Event {
 	    $select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
 		->where('dateEvent >= CURDATE()')
 		->order(array($tri . ' ' . $direction, 'dateEvent asc'))
-		->limitPage($page, $lppage);
+		->limitPage($page, $lppage)
 		;
 	    $result = $select->query()->fetchAll();
 	    return $result;
@@ -129,6 +129,7 @@ class Event {
 	    return false;
 	}
     }
+
 
     /* ACCESSEURS
      *

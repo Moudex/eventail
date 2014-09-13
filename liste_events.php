@@ -14,15 +14,17 @@ $direction = array_key_exists('direction', $_GET) ? $_GET['direction'] : 'asc';
 $page = array_key_exists('page', $_GET) ? $_GET['page'] : 1;
 
 $liste_events = Event::getNextEvents($tri, $direction, $page, $preferences->pref_numrows);
-if($liste_events == false){
-    $tpl->assign('page_title', 'erff');
-}else {
-    $tpl->assign('page_title', 'Liste des evenements');
-}
+//$nb_events = Event::getNbNextEvents();
+$tpl->assign('page_title', 'Liste des evenements');
 $orig_template_path = $tpl->template_dir;
 $tpl->template_dir = 'templates/' . $preferences->pref_theme;
 
 $tpl->assign('liste_events', $liste_events);
+foreach($liste_events as $event) {
+    list($a, $m, $j) = split('-', $event->dateEvent);
+    $event->dateEvent = $j . '/' . $m . '/' . $a;
+}
+//$tpl->assign('nb_events', 2);
 
 $content = $tpl->fetch('liste_events.tpl', EVENTAIL_PREFIX);
 $tpl->assign('content', $content);

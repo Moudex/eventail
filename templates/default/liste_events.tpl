@@ -10,7 +10,7 @@
     <tbody>
     {foreach from=$liste_events item=event}
 	<tr>
-	    <td>{$event->nom}</td>
+	    <td><a href="./voir_event.php?event_id={$event->event_id}">{$event->nom}</a></td>
 	    <td>{$event->lieu}</td>
 	    <td>{$event->prixParticipation}&euro;</td>
 	    <td>{$event->dateEvent}</td>
