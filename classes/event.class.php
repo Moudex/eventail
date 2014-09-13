@@ -107,8 +107,27 @@ class Event {
 	return false;
     }
 
-    public static function getNextEvents() {
+    public static function getNextEvents($tri, $direction, $page, $lppage) {
 	global $zdb;
+
+	try {
+	    $select = new Zend_Db_Select($zdb->db);
+	    $select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
+		->where('dateEvent >= CURDATE()')
+		->order(array($tri . ' ' . $direction, 'dateEvent asc'))
+		->limitPage($page, $lppage);
+		;
+	    $result = $select->query()->fetchAll();
+	    return $result;
+
+	}
+	catch (Exception $e){
+	    Analog\Analog::log(
+		'something went wrong:\'( | ' . $e->getMessage() . "\n" .
+		$e->getTraceAsString(), Analog\Analog::ERROR
+	    );
+	    return false;
+	}
     }
 
     /* ACCESSEURS
