@@ -33,20 +33,22 @@ class Event {
 	if(is_object($args)) {
 	    $this->_loadFromRS($args);
 	}
-	else if(is_string($args)){
+	else if(is_int($args)) {
 	    try {
 		$select = new Zend_Db_Select($zdb->db);
 		$select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
-		    ->where('dateEvent = ?', $args);
+		    ->where(self::PK . ' = ' . $args);
 		if ($select->query()->rowCount() == 1) {
 		    $this->_loadFromRS($select->query()->fetch());
 		}
 	    }
 	    catch (Exception $e) {
-		
+		Analog\Analog::log(
+		    'Something went wrong :\'( | ' . $e->getMassage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+		);
 	    }
 	}
-	else if(is_int($args)) {
+	else if(is_string($args)){
 	    try {
 		$select = new Zend_Db_Select($zdb->db);
 		$select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
@@ -64,15 +66,15 @@ class Event {
     }
 
     private function _loadFromRS($r) {
-	$this->_event_id = $r->_event_id;
-	$this->_nom = $r->_nom;
-	$this->_dateEvent = $r->_dateEvent;
-	$this->_ouvertureInsc = $r->_ouvertureInsc;
-	$this->_fermetureInsc = $r->_fermetureInsc;
-	$this->_lieu = $r->_lieu;
-	$this->_description = $r->_description;
-	$this->_prixParticipation = $r->_prixParticipation;
-	$this->_nbPlaces = $r->_nbPlaces;
+	$this->_event_id = $r->event_id;
+	$this->_nom = $r->nom;
+	$this->_dateEvent = $r->dateEvent;
+	$this->_ouvertureInsc = $r->ouvertureInsc;
+	$this->_fermetureInsc = $r->fermetureInsc;
+	$this->_lieu = $r->lieu;
+	$this->_description = $r->description;
+	$this->_prixParticipation = $r->prixParticipation;
+	$this->_nbPlaces = $r->nbPlaces;
     }
 
     public function store() {
