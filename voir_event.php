@@ -7,6 +7,11 @@ if (!$login->isLogged()) {
     die();
 }
 
+$admin = 0;
+if ($login->isAdmin()){
+    $admin = 1;
+}
+
 require_once '_config.inc.php';
 
 $tpl->assign('page_title', 'Fiche evenement');
@@ -32,6 +37,7 @@ list($a, $m, $j) = split('-', $event->fermetureInsc);
 $event->fermetureInsc = $j . '/' . $m . '/' . $a;
 
 $tpl->assign('event', $event);
+$tpl->assign('admin', $admin);
 
 $content = $tpl->fetch('voir_event.tpl', EVENTAIL_PREFIX);
 $tpl->assign('content', $content);

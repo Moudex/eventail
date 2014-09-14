@@ -12,7 +12,7 @@
 	<tr>
 	    <td><a href="./voir_event.php?event_id={$event->event_id}">{$event->nom}</a></td>
 	    <td>{$event->lieu}</td>
-	    <td>{$event->prixParticipation}&euro;</td>
+	    <td>{if $event->prixParticipation eq 0}Gratuit{else}{$event->prixParticipation}&euro;{/if}</td>
 	    <td>{$event->dateEvent}</td>
 	</tr>
     {/foreach}
