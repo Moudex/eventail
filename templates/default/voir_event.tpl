@@ -10,12 +10,16 @@
 	    <td>{$event->dateEvent}</td>
 	</tr>
 	<tr>
-	    <th>Fermeture des inscriptions :</th>
+	    <th>Clôture des inscriptions :</th>
 	    <td>{$event->fermetureInsc}</td>
 	</tr>
 	<tr>
 	    <th>Lieu :</th>
 	    <td>{$event->lieu}</td>
+	</tr>
+	<tr>
+	    <th>Participation :</th>
+	    <td>{if $event->prixParticipation eq 0}Gratuit{else}{$event->prixParticipation}&euro;{/if}</td>
 	</tr>
 	<tr>
 	    <th>Description :</th>
