@@ -5,37 +5,39 @@
 	    <legend class="ui-state-active ui-corner-top">Informations</legend>
 	    <p>
 		<label for="nom" class="bline">Nom : </label>
-		<input type="text" name="nom" id="nom" required>
+		<input type="text" name="nom" id="nom" {if $edit}value="{$event->nom}"{/if} required>
 	    </p>
 	    <p>
 		<label for="date" class="bline">Date : </label>
-		<input type="text" name="date" id="date" value="" maxlength="10" required /> <span class="exemple">(format jj/mm/aaaa)</span>
+		<input type="text" name="date" id="date" maxlength="10" {if $edit}value="{$event->dateEvent}"{/if} required /> <span class="exemple">(format jj/mm/aaaa)</span>
 	    </p>
 	    <p>
 		<label for="ouvertureInsc" class="bline">Ouverture des inscriptions : </label>
-		<input type="text" name="ouvertureInsc" id="ouvertureInsc" value="" maxlength="10" /> <span class="exemple">(format jj/mm/aaaa)</span>
+		<input type="text" name="ouvertureInsc" id="ouvertureInsc" maxlength="10" {if $edit}value="{$event->ouvertureInsc}"{/if} /> <span class="exemple">(format jj/mm/aaaa)</span>
 	    </p>
 	    <p>
 		<label for="fermetureInsc" class="bline">Fermeture des inscriptions : </label>
-		<input type="date" name="fermetureInsc" id="fermetureInsc" maxlength="10" /> <span class="exemple">(format jj/mm/aaaa)</span>
+		<input type="text" name="fermetureInsc" id="fermetureInsc" maxlength="10" {if $edit}value="{$event->fermetureInsc}"{/if} /> <span class="exemple">(format jj/mm/aaaa)</span>
 	    </p>
 	    <p>
 		<label for="lieu" class="bline">Lieu : </label>
-		<input type="text" name="lieu" id="lieu" />
+		<input type="text" name="lieu" id="lieu" {if $edit}value="{$event->lieu}"{/if} />
 	    </p>
 	    <p>
 		<label for="description" class="bline">Description : </label>
-		<textarea rows="4" cols="50" name="description" id="description">
-		</textarea>
+		<textarea rows="4" cols="50" name="description" id="description">{if $edit}{$event->description}{/if}</textarea>
 	    </p>
 	    <p>
 		<label for="prix" class="bline">Prix de participation : </label>
-		<input type="text" value="5" name="prix" id="prix" size="3" min="0" /> <span class="exemple">&euro;</span>
+		<input type="text" value="{if $edit}{$event->prixParticipation}{else}5{/if}" name="prix" id="prix" size="3" min="0" /> <span class="exemple">&euro;</span>
 	    </p>
 	    <p>
 		<label for="places" class="bline">Nombre de places disponibles : </label>
-		<input type="text" value="100" size="4" name="places" id="places" min="1" />
+		<input type="text" value="{if $edit}{$event->nbPlaces}{else}100{/if}" size="4" name="places" id="places" min="1" />
 	    </p>
+	    {if $edit}
+	    <input type="hidden" name="event_id" id="event_id" value="{$event->event_id}" />
+	    {/if}
 	</fieldset>
     </div>
     <div class="button-container">

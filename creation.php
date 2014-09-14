@@ -16,6 +16,9 @@ $enregistrer = false;
 if (array_key_exists('sauver', $_POST)) {
     // enregistrer en bdd
     $evt = new Event();
+    if (array_key_exists('event_id', $_POST)) {
+	$evt->event_id = $_POST['event_id'];
+    }
     $evt->nom = $_POST['nom'];
     list($j, $m, $a) = split('/', $_POST['date']);
     $evt->dateEvent = $a . '-' . $m . '-' . $j;
@@ -36,14 +39,30 @@ if (array_key_exists('sauver', $_POST)) {
     if($evt->store()){
 	header('Location: liste_events.php');
     }
-}
+}//*
+else if (array_key_exists('event_id', $_GET)) {
+    $orig_template_path = $tpl->template_dir;
+    $tpl->template_dir = 'templates/' . $preferences->pref_theme;
+    $tpl->assign('page_title', 'Fiche evenement (modification)');
+    $event = new Event(intval($_GET['event_id']));
+    list($a, $m, $j) = split('-', $event->dateEvent);
+    $event->dateEvent = $j . '/' . $m . '/' . $a;
+    list($a, $m, $j) = split('-', $event->ouvertureInsc);
+    $event->ouvertureInsc = $j . '/' . $m . '/' . $a;
+    list($a, $m, $j) = split('-', $event->fermetureInsc);
+    $event->fermetureInsc = $j . '/' . $m . '/' . $a;
+    $tpl->assign('event', $event);
+    $tpl->assign('edit', true);
+    $content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);
+    $tpl->assign('content', $content);
+    $tpl->template_dir = $orig_template_path;
+    $tpl->display('page.tpl', EVENTAIL_PREFIX);
+} //*/
 else {
     $orig_template_path = $tpl->template_dir;
     $tpl->template_dir = 'templates/' . $preferences->pref_theme;
-
-    // assign
     $tpl->assign('page_title', 'Fiche evenement (creation)');
-    
+    $tpl->assign('edit', false);
     $content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);
     $tpl->assign('content', $content);
     $tpl->template_dir = $orig_template_path;
