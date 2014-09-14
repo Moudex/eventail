@@ -24,8 +24,9 @@ foreach($liste_events as $event) {
     list($a, $m, $j) = split('-', $event->dateEvent);
     $event->dateEvent = $j . '/' . $m . '/' . $a;
 }
-//$tpl->assign('nb_events', 2);
-
+$tpl->assign('tri', $tri);
+$tpl->assign('direction', $direction);
+$tpl->assign('page', $page);
 $content = $tpl->fetch('liste_events.tpl', EVENTAIL_PREFIX);
 $tpl->assign('content', $content);
 $tpl->template_dir = $orig_template_path;
