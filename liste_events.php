@@ -20,10 +20,6 @@ $orig_template_path = $tpl->template_dir;
 $tpl->template_dir = 'templates/' . $preferences->pref_theme;
 
 $tpl->assign('liste_events', $liste_events);
-foreach($liste_events as $event) {
-    list($a, $m, $j) = split('-', $event->dateEvent);
-    $event->dateEvent = $j . '/' . $m . '/' . $a;
-}
 if (array_key_exists('id_adh', $_GET) && $login->isAdmin()) {
     $tpl->assign('id_adh', $_GET['id_adh']);
 } else {

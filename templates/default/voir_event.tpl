@@ -40,5 +40,31 @@
 	    <td>{$event->description}</td>
 	</tr>
     </table>
+    {if $admin}
+    <table class="details">
+	<caption class="ui-state-active ui-corner-top">Participants :</caption>
+	<tr>
+	    <th>#</th>
+	    <th>Nom</th>
+	    <th>Prenom</th>
+	    <th>Tel.</th>
+	    <th>Insc.</th>
+	    <th>Régime</th>
+	    <th>Commentaire</th>
+	</tr>
+	<!-- {counter start=0 skip=1} -->
+	{foreach from=$participants item=participant}
+	<tr>
+	    <td>{counter}</td>
+	    <td>{$participant->nom_adh}</td>
+	    <td>{$participant->prenom_adh}</td>
+	    <td>{if $participant->tel_adh eq ''}{$participant->gsm_adh}{else}{$participant->tel_adh}{/if}</td>
+	    <td>{$participant->datePaye}</td>
+	    <td>{if $participant->alcool}alcool,{else}sodas,{/if} {if $participant->viande}viande{elseif $participant->hallal}hallal{else}végératien{/if}</td>
+	    <td>{if $participant->voiture}voiture{/if}</td>
+	</tr>
+	{/foreach}
+    </table>
 
+    {/if}
 </div>

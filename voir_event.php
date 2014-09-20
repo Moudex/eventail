@@ -7,10 +7,6 @@ if (!$login->isLogged()) {
     die();
 }
 
-$admin = 0;
-if ($login->isAdmin()){
-    $admin = 1;
-}
 
 require_once '_config.inc.php';
 
@@ -28,6 +24,12 @@ else {
     die();
 }
 
+$admin = 0;
+if ($login->isAdmin()){
+    $admin = 1;
+    $participants = $event->getParticipants();
+    $tpl->assign('participants', $participants);
+}
 $tpl->assign('event', $event);
 $tpl->assign('admin', $admin);
 

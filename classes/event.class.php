@@ -109,6 +109,33 @@ class Event {
 	return false;
     }
 
+    public function getParticipants() {
+	global $zdb;
+
+	try {
+	    $select = new Zend_Db_Select($zdb->db);
+	   /* $select->from(array('a' => PREFIX_DB . 'adherents'), array('nom_adh', 'prenom_adh', 'tel_adh'))
+		->join(array('i' => PREFIX_DB . PLUGIN_PREFIX . 'individu'), 'a.id_adh = p.individu_id')
+		->join(array('p' => PREFIX_DB . PLUGIN_PREFIX . 'participe'), 
+	    */
+	    $select->from(array('e' => PREFIX_DB . PLUGIN_PREFIX . self::TABLE))
+		->where('e.event_id = ?', $this->_event_id)
+		->join(array('p' => PREFIX_DB . PLUGIN_PREFIX . 'participe'), 'e.event_id = p.event_id')
+		->join(array('i' => PREFIX_DB . PLUGIN_PREFIX . 'individu'), 'p.individu_id = i.individu_id')
+		->join(array('a' => PREFIX_DB . 'adherents'), 'p.individu_id = a.id_adh')
+		;
+	    $result = $select->query()->fetchAll();
+	    return $result;
+	}
+	catch (Exception $e){
+	    Analog\Analog::log(
+		'something went wrong:\'( | ' . $e->getMessage() . "\n" .
+		$e->getTraceAsString(), Analog\Analog::ERROR
+	    );
+	    return false;
+	}
+    }
+
     public static function getNextEvents($tri, $direction, $page, $lppage) {
 	global $zdb;
 
