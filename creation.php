@@ -20,18 +20,17 @@ if (array_key_exists('sauver', $_POST)) {
 	$evt->event_id = $_POST['event_id'];
     }
     $evt->nom = $_POST['nom'];
-    list($j, $m, $a) = split('/', $_POST['date']);
-    $evt->dateEvent = $a . '-' . $m . '-' . $j;
+    $evt->dateEvent = $_POST['date'];
     if (strlen($_POST['fermetureInsc']) > 0) {
-	list($j, $m, $a) = split('/', $_POST['fermetureInsc']);
-    }
-    $evt->fermetureInsc = $a . '-' . $m . '-' . $j;
-    if (strlen($_POST['ouvertureInsc']) > 0) {
-	list($j, $m, $a) = split('/', $_POST['ouvertureInsc']);
+	$evt->fermetureInsc = $_POST['fermetureInsc'];
     } else {
-	list($j, $m, $a) = split('/', date('d/m/Y'));
+	$evt->fermetureInsc = $evt->dateEvent;
     }
-    $evt->ouvertureInsc = $a . '-' . $m . '-' . $j;
+    if (strlen($_POST['ouvertureInsc']) > 0) {
+	$evt->ouvertureInsc = $_POST['ouvertureInsc'];
+    } else {
+	$evt->ouvertureInsc = DateHeure::nowIHM();
+    }
     $evt->lieu = $_POST['lieu'];
     $evt->description = $_POST['description'];
     $evt->prixParticipation = intval($_POST['prix']);
@@ -45,12 +44,6 @@ else if (array_key_exists('event_id', $_GET)) {
     $tpl->template_dir = 'templates/' . $preferences->pref_theme;
     $tpl->assign('page_title', 'Fiche evenement (modification)');
     $event = new Event(intval($_GET['event_id']));
-    list($a, $m, $j) = split('-', $event->dateEvent);
-    $event->dateEvent = $j . '/' . $m . '/' . $a;
-    list($a, $m, $j) = split('-', $event->ouvertureInsc);
-    $event->ouvertureInsc = $j . '/' . $m . '/' . $a;
-    list($a, $m, $j) = split('-', $event->fermetureInsc);
-    $event->fermetureInsc = $j . '/' . $m . '/' . $a;
     $tpl->assign('event', $event);
     $tpl->assign('edit', true);
     $content = $tpl->fetch('creation.tpl', EVENTAIL_PREFIX);

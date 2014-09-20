@@ -28,14 +28,6 @@ else {
     die();
 }
 
-// Formatage date evenement
-list($a, $m, $j) = split('-', $event->dateEvent);
-$event->dateEvent = $j . '/' . $m . '/' . $a;
-
-// Formatage fermeture inscriptions
-list($a, $m, $j) = split('-', $event->fermetureInsc);
-$event->fermetureInsc = $j . '/' . $m . '/' . $a;
-
 $tpl->assign('event', $event);
 $tpl->assign('admin', $admin);
 

@@ -9,15 +9,15 @@
 	    </p>
 	    <p>
 		<label for="date" class="bline">Date : </label>
-		<input type="text" name="date" id="date" maxlength="10" {if $edit}value="{$event->dateEvent}"{/if} required /> <span class="exemple">(format jj/mm/aaaa)</span>
+		<input type="text" name="date" id="date" {if $edit}value="{$event->dateEvent}"{/if} required /> <span class="exemple">(format jj/mm/aaaa)</span>
 	    </p>
 	    <p>
 		<label for="ouvertureInsc" class="bline">Ouverture des inscriptions : </label>
-		<input type="text" name="ouvertureInsc" id="ouvertureInsc" maxlength="10" {if $edit}value="{$event->ouvertureInsc}"{/if} /> <span class="exemple">(format jj/mm/aaaa)</span>
+		<input type="text" name="ouvertureInsc" id="ouvertureInsc"  {if $edit}value="{$event->ouvertureInsc}"{/if} /> <span class="exemple">(format jj/mm/aaaa)</span>
 	    </p>
 	    <p>
 		<label for="fermetureInsc" class="bline">Fermeture des inscriptions : </label>
-		<input type="text" name="fermetureInsc" id="fermetureInsc" maxlength="10" {if $edit}value="{$event->fermetureInsc}"{/if} /> <span class="exemple">(format jj/mm/aaaa)</span>
+		<input type="text" name="fermetureInsc" id="fermetureInsc" {if $edit}value="{$event->fermetureInsc}"{/if} /> <span class="exemple">(format jj/mm/aaaa)</span>
 	    </p>
 	    <p>
 		<label for="lieu" class="bline">Lieu : </label>

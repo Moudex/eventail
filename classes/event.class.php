@@ -8,9 +8,9 @@ class Event {
     private $_fields = array(
 	'_event_id' => 'integer',
 	'_nom' => 'string',
-	'_dateEvent' => 'date',
-	'_ouvertureInsc' => 'date',
-	'_fermetureInsc' => 'date',
+	'_dateEvent' => 'datetime',
+	'_ouvertureInsc' => 'datetime',
+	'_fermetureInsc' => 'datetime',
 	'_lieu' => 'string',
 	'_description' => 'string',
 	'_prixParticipation' => 'integer',
@@ -44,7 +44,7 @@ class Event {
 	    }
 	    catch (Exception $e) {
 		Analog\Analog::log(
-		    'Something went wrong :\'( | ' . $e->getMassage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+		    'Something went wrong :\'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
 		);
 	    }
 	}
@@ -59,7 +59,7 @@ class Event {
 	    }
 	    catch (Exception $e) {
 		Analog\Analog::log(
-		    'Something went wrong :\'( | ' . $e->getMassage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+		    'Something went wrong :\'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
 		);
 	    }
 	}
@@ -103,7 +103,7 @@ class Event {
 	}
 	catch (Exception $e) {
 	    Analog\Analog::log(
-		'Something went wrong : \'( | ' . $e->getMassage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+		'Something went wrong : \'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
 	    );
 	}
 	return false;
@@ -142,12 +142,29 @@ class Event {
 	if (substr($rname, 0, 3) == '___') {
 	    return null;
 	}
-	return $this->$rname;
+	switch ($name) {
+	case 'dateEvent':
+	case 'ouvertureInsc':
+	case 'fermetureInsc':
+	    if ($this->$rname != null)
+		return DateHeure::SQLToIHM($this->$rname);
+	    break;
+	default :
+	    return $this->$rname;
+	}
     }
 
     public function __set($name, $value) {
 	$rname = '_' . $name;
-	$this->$rname = $value;
+	switch ($name) {
+	    case 'dateEvent':
+	    case 'ouvertureInsc':
+	    case 'fermetureInsc':
+		$this->$rname = DateHeure::IHMToSQL($value);
+		break;
+	    default:
+		$this->$rname = $value;
+	}
     }
 }
 

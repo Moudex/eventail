@@ -24,6 +24,16 @@ foreach($liste_events as $event) {
     list($a, $m, $j) = split('-', $event->dateEvent);
     $event->dateEvent = $j . '/' . $m . '/' . $a;
 }
+if (array_key_exists('id_adh', $_GET) && $login->isAdmin()) {
+    $tpl->assign('id_adh', $_GET['id_adh']);
+} else {
+    $tpl->assign('id_adh', $login->id);
+}
+if($login->isAdmin()){
+    $tpl->assign('admin', true);
+}else {
+    $tpl->assign('admin', false);
+}
 $tpl->assign('tri', $tri);
 $tpl->assign('direction', $direction);
 $tpl->assign('page', $page);
