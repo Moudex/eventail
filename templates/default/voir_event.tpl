@@ -5,9 +5,6 @@
     <li>
 	<a class="button" href="creation.php?event_id={$event->event_id}" id="btn_edit">Modification</a>
     </li>
-    <li>
-	<a class="button" href="#" id="btnadd">Inscrire un membre</a>
-    </li>
     {/if}
 
 </ul>

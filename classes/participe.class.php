@@ -21,17 +21,16 @@ class Participe{
     private $_individu_id;
     private $_commentaire;
 
-    public function __construct($args = null) {
+    public function __construct($id_adh = null, $event_id = null) {
 	global $zdb;
 
-	if (is_object($args)) {
-	    $this->_loadFromRS($args);
-	}
-	else if (is_int($args) || is_string($args)) {
+	if ((is_int($id_adh) || is_string($id_adh)) && (is_int($event_id) || is_string($event_id))) {
 	    try {
 		$select = new Zend_Db_Select($zdb->db);
 		$select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
-		    ->where(self::PK . ' = ' . $args);
+		    ->where('individu_id = ?', $id_adh)
+		    ->where('event_id = ?', $event_id)
+		    ;
 		if ($select->query()->rowCount() == 1) {
 		    $this->_loadFromRS($select->query()->fetch());
 		}
@@ -64,23 +63,45 @@ class Participe{
 		$values[substr($k, 1)] = $this->$k;
 	    }
 
-	    if (!isset($this->_participe_id) || $this->_participe_id == '') {
-		$add = $zdb->db->insert(PREFIX_DB . PLUGIN_PREFIX . self::TABLE, $values);
-		if ($add > 0) {
-		    $this->_participe_id = $zdb->db->lastInsertId();
-		} else {
-		    throw new Exception("Echec ajout participant");
-		}
+	    $select = new Zend_Db_Select($zdb->db);
+	    $select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
+		->where('individu_id = ?', $this->_individu_id)
+		->where('event_id = ?', $this->_event_id)
+		;
+	    if ($select->query()->rowCount() == 1) {
+		$where['individu_id = ?'] = $this->_individu_id;
+		$where['event_id = ?'] = $this->_event_id;
+		$edit = $zdb->db->update( PREFIX_DB . PLUGIN_PREFIX . self::TABLE, $values, $where);
 	    } else {
-		$edit = $zdb->db->update(
-		    PREFIX_DB . PLUGIN_PREFIX . self::TABLE, $value, self::PK . ' = ' . $this->_event_id
-		);
+		$add = $zdb->db->insert(PREFIX_DB . PLUGIN_PREFIX . self::TABLE, $values);
 	    }
 	    return true;
 	}
 	catch (Exception $e) {
 	    Analog\Analog::log(
 		    'Something went wrong:\'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+	    );
+	    return false;
+	}
+    }
+
+    public static function exists($id_adh, $event_id) {
+	global $zdb;
+
+	try {
+	    $select = new Zend_Db_Select($zdb->db);
+	    $select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
+		->where('individu_id = ?', $id_adh)
+		->where('event_id = ?', $event_id)
+		;
+	    if ($select->query()->rowCount() == 1) {
+		return true;
+	    } else {
+		return false;
+	    }
+	} catch (Exception $e) {
+	    Analog\Analog::log(
+		'Something went wrong : \'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
 	    );
 	    return false;
 	}

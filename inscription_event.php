@@ -19,9 +19,8 @@ else if (array_key_exists('id_adh', $_GET) && array_key_exists('event_id', $_GET
 	die();
     }
 
-    // sauver les infos complémentaires
-    if (array_key_exists('sauver', $_POST)) {
-	// enregistrer individu en bdd
+    if (array_key_exists('participer', $_POST)) {
+	// Individu
 	$individu = new Individu();
 	$individu->individu_id = $_GET['id_adh'];
 	$individu->alcool = $_POST['alcool'] == 1 ? 1 : 0;
@@ -29,26 +28,9 @@ else if (array_key_exists('id_adh', $_GET) && array_key_exists('event_id', $_GET
 	$individu->hallal = $_POST['hallal'] == 1 ? 1 : 0;
 	$individu->voiture = $_POST['voiture'] == 1 ? 1 : 0;
 	$individu->velo = $_POST['velo'] == 1 ? 1 : 0;
-	$individu->commentaire = $_POST['commentaire'];
-	if ($individu->store()) {
-	    header('location: inscription_event.php?id_adh=' . $_GET['id_adh'] . '&event_id=' . $_GET['event_id']);
-	}
-    }
-    // si individu n'a jamais participé à un event
-    else if (!Individu::exists($_GET['id_adh'])) {
-	// formulaire pour spécifier régime et voiture
-	$orig_template_path = $tpl->template_dir;
-	$tpl->template_dir = 'templates/' . $preferences->pref_theme;
-	$tpl->assign('page_title', 'Informations complémentaires');
-	$tpl->assign('id_adh', $_GET['id_adh']);
-	$tpl->assign('event_id', $_GET['event_id']);
-	$content = $tpl->fetch('infos_adh.tpl', EVENTAIL_PREFIX);
-	$tpl->assign('content', $content);
-	$tpl->template_dir = $orig_template_path;
-	$tpl->display('page.tpl', EVENTAIL_PREFIX);
-    }
-    else if (array_key_exists('participer', $_POST)) {
-	// enregistrer participation en bdd
+	//$individu->commentaire = $_POST['commentaire'];
+	
+	// Participation
 	$participation = new Participe();
 	$participation->paye = $_POST['paye'] == 1 ? 1 : 0;
 	if ($_POST['paye']) {
@@ -56,8 +38,8 @@ else if (array_key_exists('id_adh', $_GET) && array_key_exists('event_id', $_GET
 	}
 	$participation->event_id = $_GET['event_id'];
 	$participation->individu_id = $_GET['id_adh'];
-	$participation->commentaire = $_POST['commentaire'];
-	if ($participation->store()) {
+	//$participation->commentaire = $_POST['commentaire'];
+	if ($participation->store() && $individu->store()) {
 	    header('location: voir_event.php?event_id=' . $_GET['event_id']);
 	}
     }
@@ -67,7 +49,21 @@ else if (array_key_exists('id_adh', $_GET) && array_key_exists('event_id', $_GET
 	$tpl->template_dir = 'templates/' . $preferences->pref_theme;
 	$tpl->assign('page_title', 'Participation événement');
 	$tpl->assign('event', new Event($_GET['event_id']));
-	$tpl->assign('individu', new Individu($_GET['id_adh']));
+	
+	if (Individu::exists($_GET['id_adh'])) {
+	    $tpl->assign('individu', new Individu($_GET['id_adh']));
+	    $tpl->assign('editI', true);
+	} else {
+	    $tpl->assign('editI', false);
+	}
+
+	if (Participe::exists($_GET['id_adh'], $_GET['event_id'])) {
+	    $tpl->assign('participe', new Participe($_GET['id_adh'], $_GET['event_id']));
+	    $tpl->assign('editP', true);
+	} else {
+	    $tpl->assign('editP', false);
+	}
+
 	//$tpl->assign('adh', new Adherent(intval($_GET['id_adh'])));
 	$content = $tpl->fetch('participation.tpl', EVENTAIL_PREFIX);
 	$tpl->assign('content', $content);
