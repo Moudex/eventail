@@ -29,17 +29,21 @@ else if (array_key_exists('id_adh', $_GET) && array_key_exists('event_id', $_GET
 	$individu->voiture = $_POST['voiture'] == 1 ? 1 : 0;
 	$individu->velo = $_POST['velo'] == 1 ? 1 : 0;
 	//$individu->commentaire = $_POST['commentaire'];
-	
+	if (!$individu->store()) {
+	    header('location: ' . GALETTE_BASE_PATH . 'index.php');
+	    die();
+	}
+
 	// Participation
 	$participation = new Participe();
 	$participation->paye = $_POST['paye'] == 1 ? 1 : 0;
-	if ($_POST['paye']) {
+	if ($_POST['paye'] == 1) {
 	    $participation->datePaye = DateHeure::nowIHM();
 	}
 	$participation->event_id = $_GET['event_id'];
 	$participation->individu_id = $_GET['id_adh'];
 	//$participation->commentaire = $_POST['commentaire'];
-	if ($participation->store() && $individu->store()) {
+	if ($participation->store()) {
 	    header('location: voir_event.php?event_id=' . $_GET['event_id']);
 	}
     }
@@ -54,6 +58,9 @@ else if (array_key_exists('id_adh', $_GET) && array_key_exists('event_id', $_GET
 	    $tpl->assign('individu', new Individu($_GET['id_adh']));
 	    $tpl->assign('editI', true);
 	} else {
+	    $individu = new Individu();
+	    $individu->individu_id = $_GET['id_adh'];
+	    $tpl->assign('individu', $individu);
 	    $tpl->assign('editI', false);
 	}
 

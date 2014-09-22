@@ -69,7 +69,7 @@ class Individu {
 
 	    $select = new Zend_Db_Select($zdb->db);
 	    $select->from(PREFIX_DB . PLUGIN_PREFIX . self::TABLE)
-		->where(self::PK . ' = ' . $this->_individu_id);
+		->where('individu_id = ?', $this->_individu_id);
 	    if ($select->query()->rowCount() == 1) {
 		$edit = $zdb->db->update(
 		    PREFIX_DB . PLUGIN_PREFIX . self::TABLE, $values, self::PK . ' = ' . $this->_individu_id
@@ -82,8 +82,8 @@ class Individu {
 	    Analog\Analog::log(
 		'Something went wrong : \'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
 	    );
+	    return false;
 	}
-	return false;
     }
 
     public static function exists($id) {
@@ -99,6 +99,7 @@ class Individu {
 	    Analog\Analog::log(
 		'Something went wrong : \'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
 	    );
+	    return false;
 	}
     }
 

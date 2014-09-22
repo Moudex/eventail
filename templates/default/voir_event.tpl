@@ -60,7 +60,9 @@
 	    <td>{$participant->datePaye}</td>
 	    <td>{if $participant->alcool}alcool,{else}sodas,{/if} {if $participant->viande}viande{elseif $participant->hallal}hallal{else}végératien{/if}</td>
 	    <td>{if $participant->voiture}voiture{/if}</td>
-	    <td></td>
+	    <td class="action_row">
+		<a href="inscription_event.php?id_adh={$participant->id_adh}&event_id={$event->event_id}"><img src="{$template_subdir}images/icon-edit.png" alt="edit" width="16" height="16"/></a>
+	    </td>
 	</tr>
 	{foreachelse}
 	<tr>
