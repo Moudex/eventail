@@ -16,16 +16,25 @@
 	    <td>{if $event->prixParticipation eq 0}Gratuit{else}{$event->prixParticipation}&euro;{/if}</td>
 	    <td>{$event->dateEvent}</td>
 	    <td class="actions_row">
+		{if $id_adh}
 		<a href="inscription_event.php?id_adh={$id_adh}&event_id={$event->event_id}">
 		    <img src="templates/default/images/icon-event.png" alt="InscriptionEvent" width="16" height="16" />
 		</a>
+		{/if}
 		{if $admin}
 		<a href="creation.php?event_id={$event->event_id}">
 		    <img src="{$template_subdir}images/icon-edit.png" alt="edit" width="16" height="16" />
 		</a>
+		<a href="supp_event.php?event_id={$event->event_id}">
+		    <img src="{$template_subdir}images/delete.png" alt="delete" width="16" height="16" />
+		</a>
 		{/if}
 	    </td>
 	</tr>
+    {foreachelse}
+    <tr>
+	<td colspan="5" style="text-align: center;">Auncun event</td>
+    </tr>
     {/foreach}
     </tbody>
 </table>

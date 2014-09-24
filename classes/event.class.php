@@ -109,6 +109,21 @@ class Event {
 	return false;
     }
 
+    public function erease() {
+	global $zdb;
+
+	try {
+	    $del = $zdb->db->delete(PREFIX_DB . PLUGIN_PREFIX . self::TABLE, self::PK . '=' . $this->_event_id);
+	    return $del;
+	}
+	catch (Exception $e) {
+	    Analog\Analog::log(
+		'Something went wrong : \'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+	    );
+	    return false;
+	}
+    }
+
     public function getParticipants() {
 	global $zdb;
 
