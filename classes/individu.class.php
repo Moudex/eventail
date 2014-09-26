@@ -12,7 +12,7 @@ class Individu {
 	'_hallal'	=> 'boolean',
 	'_voiture'	=> 'boolean',
 	'_velo'		=> 'boolean',
-	'_commentaire'	=> 'string',
+	'_infos'	=> 'string',
     );
 
     private $_individu_id;
@@ -21,7 +21,7 @@ class Individu {
     private $_hallal;
     private $_voiture;
     private $_velo;
-    private $_commentaire;
+    private $_infos;
 
     public function __construct($args = null){
 	global $zdb;
@@ -81,6 +81,29 @@ class Individu {
 	} catch (Exception $e) {
 	    Analog\Analog::log(
 		'Something went wrong : \'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+	    );
+	    return false;
+	}
+    }
+
+    public static function get_adh($id) {
+	global $zdb;
+
+	try {
+	    $select = new Zend_Db_Select($zdb->db);
+	    $select->from(array('i' => PREFIX_DB . PLUGIN_PREFIX . self::TABLE))
+		->where('i.individu_id = ?', $id)
+		->join(array('a' => PREFIX_DB . 'adherents'), 'i.individu_id = a.id_adh')
+		;
+	    if ($select->query()->rowCount() == 1)
+		return $select->query()->fetch();
+	    else
+		return false;
+	}
+	catch (Exception $e){
+	    Analog\Analog::log(
+		'something went wrong:\'( | ' . $e->getMessage() . "\n" .
+		$e->getTraceAsString(), Analog\Analog::ERROR
 	    );
 	    return false;
 	}

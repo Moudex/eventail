@@ -5,6 +5,12 @@
     <li>
 	<a class="button" href="creation.php?event_id={$event->event_id}" id="btn_edit">Modification</a>
     </li>
+    <li>
+	<a class="button" href="supp_event.php?event_id={$event->event_id}">
+		    <img src="{$template_subdir}images/delete.png" alt="delete" width="16" height="16" />
+	    Supprimer
+	</a>
+    </li>
     {/if}
 
 </ul>
@@ -62,6 +68,7 @@
 	    <td>{if $participant->voiture}voiture{/if}</td>
 	    <td class="action_row">
 		<a href="inscription_event.php?id_adh={$participant->id_adh}&event_id={$event->event_id}"><img src="{$template_subdir}images/icon-edit.png" alt="edit" width="16" height="16"/></a>
+		<a href="supp_participant.php?id_adh={$participant->id_adh}&event_id={$event->event_id}"><img src="{$template_subdir}images/icon-trash.png" alt="delete" width="16" height="16" /></a>
 	    </td>
 	</tr>
 	{foreachelse}

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS galette_event_individu (
     hallal tinyint(1) NOT NULL DEFAULT 0,
     voiture tinyint(1) NOT NULL DEFAULT 0,
     velo tinyint(1) NOT NULL DEFAULT 0,
-    commentaire varchar(255),
+    infos varchar(255),
     PRIMARY KEY (individu_id)
 )ENGINE=InnoDB ;
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS galette_event_participe (
     participe_id int(10) unsigned NOT NULL AUTO_INCREMENT,
     paye tinyint(1) NOT NULL DEFAULT 0,
     datePaye datetime,
-    commentaire varchar(255),
+    commentaires varchar(255),
     event_id int(10) unsigned NOT NULL,
     individu_id int(10) unsigned NOT NULL,
     PRIMARY KEY (participe_id),
@@ -39,4 +39,10 @@ CREATE TABLE IF NOT EXISTS galette_event_participe (
 )ENGINE=InnoDB ;
 
 ALTER TABLE galette_event_individu
-    ADD CONSTRAINT FK_event_individu_1 FOREIGN KEY (individu_id) REFERENCES galette_adherents (id_adh) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD CONSTRAINT FK_event_individu_1 FOREIGN KEY (individu_id) REFERENCES galette_adherents (id_adh) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE galette_event_participe
+    ADD CONSTRAINT FK_event_participe_1 FOREIGN KEY (event_id) REFERENCES galette_event_event (event_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE galette_event_individu
+    ADD CONSTRAINT FK_event_participe_2 FOREIGN KEY (individu_id) REFERENCES galette_adherents (id_adh) ON DELETE CASCADE ON UPDATE CASCADE;

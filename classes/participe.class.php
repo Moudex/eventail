@@ -11,7 +11,7 @@ class Participe{
 	'_datePaye' => 'datetime',
 	'_event_id' => 'integer',
 	'_individu_id' => 'integer',
-	'_commentaire' => 'string',
+	'_commentaires' => 'string',
     );
 
     private $_participe_id;
@@ -19,7 +19,7 @@ class Participe{
     private $_datePaye;
     private $_event_id;
     private $_individu_id;
-    private $_commentaire;
+    private $_commentaires;
 
     public function __construct($id_adh = null, $event_id = null) {
 	global $zdb;
@@ -50,7 +50,7 @@ class Participe{
 	$this->_datePaye = $r->datePaye;
 	$this->_event_id = $r->event_id;
 	$this->_individu_id = $r->individu_id;
-	$this->_commentaire = $r->commentaire;
+	$this->_commentaires = $r->commentaires;
     }
 
     public function store() {
@@ -80,6 +80,21 @@ class Participe{
 	catch (Exception $e) {
 	    Analog\Analog::log(
 		    'Something went wrong:\'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
+	    );
+	    return false;
+	}
+    }
+
+    public function erease() {
+	global $zdb;
+
+	try {
+	    $del = $zdb->db->delete(PREFIX_DB . PLUGIN_PREFIX . self::TABLE, self::PK . '=' . $this->_participe_id);
+	    return $del;
+	}
+	catch (Exception $e) {
+	    Analog\Analog::log(
+		'Something went wrong : \'( | ' . $e->getMessage() . "\n" . $e->getTraceAsString(), Analog\Analog::ERROR
 	    );
 	    return false;
 	}
