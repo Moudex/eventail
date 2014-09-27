@@ -108,5 +108,6 @@ else if (array_key_exists('event_id', $_GET) && $login->isAdmin()) {
 
 else {
     header('location: ' . GALETTE_BASE_PATH . 'gestion_adherents.php');
+    die();
 }
 ?>

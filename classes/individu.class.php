@@ -54,7 +54,7 @@ class Individu {
 	$this->_hallal = $r->hallal;
 	$this->_voiture = $r->voiture;
 	$this->_velo = $r->velo;
-	$this->_commentaire = $r->commentaire;
+	$this->_infos = $r->infos;
     }
 
     public function store(){
